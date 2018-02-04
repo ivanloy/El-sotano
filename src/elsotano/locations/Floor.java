@@ -20,6 +20,7 @@ public class Floor {
 		
 		int id;
 		boolean checked;
+		boolean[] counted = new boolean[4];
 		
 		Node right;
 		Node left;
@@ -294,7 +295,12 @@ public class Floor {
 				
 				if(candidates[node.row - 1][node.col] != null) {
 				
-					candidates[node.row - 1][node.col].quantity++;
+					if(!node.counted[0]) {
+						
+						candidates[node.row - 1][node.col].quantity++;
+						node.counted[0] = true;
+						
+					}
 					//node.routing.set(index, element);
 				
 				}else {
@@ -310,9 +316,10 @@ public class Floor {
 					
 					node.routing.set(nodeCounter, up);
 					node.distance.set(nodeCounter, 1);
-					
+					                            
 					candidates[node.row - 1][node.col] = up; //TODO put var names for node.up blablabla
 					up.quantity = 1;
+					node.counted[0] = true;
 					
 				}
 
@@ -354,10 +361,13 @@ public class Floor {
 			}else if(!hasNode[node.row + 1][node.col]) {
 						
 				if(candidates[node.row + 1][node.col] != null) { //TODO FIX WEIGHTS, checks if a node already counted a candidate
-					//TODO Too many left, dont know if its just bad luck //too many in first row
 					
-					candidates[node.row + 1][node.col].quantity++;
-					//node.routing.set(index, element);
+					if(!node.counted[2]) {
+						
+						candidates[node.row + 1][node.col].quantity++;
+						node.counted[2] = true;
+						
+					}
 				
 				}else {
 				
@@ -376,6 +386,7 @@ public class Floor {
 					
 					candidates[node.row + 1][node.col] = down;
 					down.quantity = 1;
+					node.counted[2] = true;
 					
 				}
 
@@ -420,8 +431,12 @@ public class Floor {
 						
 				if(candidates[node.row][node.col + 1] != null) {
 					
-					candidates[node.row][node.col + 1].quantity++;
-					//node.routing.set(index, element);
+					if(!node.counted[1]) {
+						
+						candidates[node.row][node.col + 1].quantity++;
+						node.counted[1] = true;
+						
+					}
 				
 				}else {
 				
@@ -439,6 +454,7 @@ public class Floor {
 					
 					candidates[node.row][node.col + 1] = right;
 					right.quantity = 1;
+					node.counted[1] = true;
 					
 				}
 
@@ -483,8 +499,12 @@ public class Floor {
 						
 				if(candidates[node.row][node.col - 1] != null) {
 					
-					candidates[node.row][node.col - 1].quantity++;
-					//node.routing.set(index, element);
+					if(!node.counted[3]) {
+						
+						candidates[node.row][node.col - 1].quantity++;
+						node.counted[3] = true;
+						
+					}
 				
 				}else {
 				
@@ -502,6 +522,7 @@ public class Floor {
 					
 					candidates[node.row][node.col - 1] = left;
 					left.quantity = 1;
+					node.counted[3] = true;
 					
 				}
 
