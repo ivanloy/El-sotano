@@ -1,20 +1,24 @@
 package elsotano.locations;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Floor {
 
 	private boolean[][] hasNode = new boolean[15][15];
+	private Node[][] candidates = new Node[16][16];
 	private Node start;
 	private int nodeCounter;
+	int candidateCounter;
 	
 	private class Node {
 		
 		Room room;
 		
+		int quantity;
+		
 		int id;
 		boolean checked;
-		boolean seen;
 		
 		Node right;
 		Node left;
@@ -30,14 +34,14 @@ public class Floor {
 		
 		public Node() {
 			
-			routing = new ArrayList<Node>(15);
-			distance = new ArrayList<Integer>(15);
+			routing = new ArrayList<Node>(43);
+			distance = new ArrayList<Integer>(43);
 			right = null;
 			left = null;
 			up = null;
 			down = null;
 			
-			for(int i = 0; i < 15; i++) {
+			for(int i = 0; i < 28; i++) {
 				
 				routing.add(right);
 				distance.add(Integer.MAX_VALUE);
@@ -51,7 +55,9 @@ public class Floor {
 	
 	public Floor() {
 		
+		candidateCounter = 0;
 		nodeCounter = 2;
+		
 		hasNode[0][0] = true;
 		hasNode[0][1] = true;
 		hasNode[1][0] = true;
@@ -80,6 +86,32 @@ public class Floor {
 		start.right.col = 1;
 		
 		fillRouting(start);
+		chooseCandidate();
+		
+	}
+	
+	private void chooseCandidate() {
+		
+		Random random = new Random();
+		int randomInt = random.nextInt(candidateCounter);
+		int randomCounter = 0;
+		
+		for(int i = 0; i < 16; i++) {
+			for(int j = 0; j < 16; j++) {
+				
+				if(candidates[i][j] != null) {
+					
+					if(randomInt == randomCounter) {
+						
+						//candidates[i][j] //TODO Link to correct node, make weights correct
+						
+					}else randomCounter++;
+						
+					
+				}
+				
+			}
+		}
 		
 	}
 	
@@ -95,6 +127,7 @@ public class Floor {
 			if(node.up != null) {
 				
 				node.routing.set(node.up.id, node.up);
+				node.distance.set(node.up.id, 1);
 				node.up.prev = node;
 				fillRouting(node.up); 
 				
@@ -115,20 +148,33 @@ public class Floor {
 					
 				}
 				
-			}else {
+			}else if(node.row > 0 && !hasNode[node.row - 1][node.col]){
 				
-				nodeCounter++;
+				if(candidates[node.row - 1][node.col] != null) {
 				
-				//TODO Rows and columns and save multiple roads to same node in grid
-				node.up = new Node(); //Dont create the node yet, just save reference
-				node.up.id = nodeCounter;
-				node.up.room = new Room();
-				node.up.col = node.col;
-				node.up.row = node.row - 1;
-				node.up.distance.set(nodeCounter, 0);
+					candidates[node.row - 1][node.col].quantity++;
+					//node.routing.set(index, element);
 				
-				node.routing.set(nodeCounter, node.up);
-				node.distance.set(nodeCounter, 1);
+				}else {
+				
+					nodeCounter++;
+					
+					node.up = new Node(); //Dont create the node yet, just save reference
+					node.up.id = nodeCounter;
+					node.up.room = new Room();
+					node.up.col = node.col;
+					node.up.row = node.row - 1;
+					node.up.distance.set(nodeCounter, 0);
+					
+					node.routing.set(nodeCounter, node.up);
+					node.distance.set(nodeCounter, 1);
+					
+					candidates[node.row - 1][node.col] = node.up; //TODO put var names for node.up blablabla
+					node.up.quantity = 1;
+					
+				}
+
+				candidateCounter++;
 				
 			}
 			
@@ -137,17 +183,17 @@ public class Floor {
 		
 		//DOWN
 		if(((node.prev != null && node.prev != node.down) || node.prev == null) &&
-		  //!hasNode[node.row + 1][node.col] && //TODO Put this on the YES Null statement, as it is meant for those
 		  ((node.down != null && !node.down.checked) || node.down == null)) {
 					
 			if(node.down != null) {
 						
 				node.routing.set(node.down.id, node.down);
+				node.distance.set(node.down.id, 1);
 				node.down.prev = node;
 				fillRouting(node.down); 
 				
 				for(Node n : node.down.routing) {
-							//TODO set distance to next to 1
+					
 					if(n != node && n != null && node.routing.get(n.id) == null) {
 								
 						node.routing.set(n.id, node.down);
@@ -163,20 +209,35 @@ public class Floor {
 							
 				}
 						
-			}else {
+			}else if(!hasNode[node.row + 1][node.col]) {
 						
-				nodeCounter++;
-						
-				node.down = new Node(); //Dont create the node yet, just save reference
-				node.down.id = nodeCounter;
-				node.down.room = new Room();
-				node.down.col = node.col;
-				node.down.row = node.row + 1;
-				node.down.distance.set(nodeCounter, 0);
-						
-				node.routing.set(nodeCounter, node.down);
-				node.distance.set(nodeCounter, 1);
-						
+				if(candidates[node.row + 1][node.col] != null) {
+					
+					candidates[node.row + 1][node.col].quantity++;
+					//node.routing.set(index, element);
+				
+				}else {
+				
+					nodeCounter++;
+					
+					//TODO Rows and columns and save multiple roads to same node in grid
+					node.down = new Node(); //Dont create the node yet, just save reference
+					node.down.id = nodeCounter;
+					node.down.room = new Room();
+					node.down.col = node.col;
+					node.down.row = node.row + 1;
+					node.down.distance.set(nodeCounter, 0);
+					
+					node.routing.set(nodeCounter, node.down);
+					node.distance.set(nodeCounter, 1);
+					
+					candidates[node.row + 1][node.col] = node.down;
+					node.down.quantity = 1;
+					
+				}
+
+				candidateCounter++;
+				
 			}
 					
 					
@@ -191,6 +252,7 @@ public class Floor {
 			if(node.right != null) {
 
 				node.routing.set(node.right.id, node.right);
+				node.distance.set(node.right.id, 1);
 				node.right.prev = node;
 				fillRouting(node.right); 
 				
@@ -211,20 +273,34 @@ public class Floor {
 							
 				}
 						
-			}else {
+			}else if(!hasNode[node.row][node.col + 1]) {
 						
-				nodeCounter++;
-						
-				node.right = new Node(); //Dont create the node yet, just save reference
-				node.right.id = nodeCounter;
-				node.right.room = new Room();
-				node.right.col = node.col + 1;
-				node.right.row = node.row;
-				node.right.distance.set(nodeCounter, 0);
-						
-				node.routing.set(nodeCounter, node.right);
-				node.distance.set(nodeCounter, 1);
-						
+				if(candidates[node.row][node.col + 1] != null) {
+					
+					candidates[node.row][node.col + 1].quantity++;
+					//node.routing.set(index, element);
+				
+				}else {
+				
+					nodeCounter++;
+					
+					node.right = new Node(); //Dont create the node yet, just save reference
+					node.right.id = nodeCounter;
+					node.right.room = new Room();
+					node.right.col = node.col + 1;
+					node.right.row = node.row;
+					node.right.distance.set(nodeCounter, 0);
+					
+					node.routing.set(nodeCounter, node.right);
+					node.distance.set(nodeCounter, 1);
+					
+					candidates[node.row][node.col + 1] = node.right;
+					node.right.quantity = 1;
+					
+				}
+
+				candidateCounter++; 
+				
 			}
 					
 					
@@ -239,6 +315,7 @@ public class Floor {
 			if(node.left != null) {
 
 				node.routing.set(node.left.id, node.left);
+				node.distance.set(node.left.id, 1);
 				node.left.prev = node;
 				fillRouting(node.left); 
 				
@@ -259,20 +336,34 @@ public class Floor {
 							
 				}
 						
-			}else {
+			}else if(node.col > 0 && !hasNode[node.row][node.col - 1]) {
 						
-				nodeCounter++;
-						
-				node.left = new Node(); //Dont create the node yet, just save reference
-				node.left.id = nodeCounter;
-				node.left.room = new Room();
-				node.left.col = node.col + 1;
-				node.left.row = node.row;
-				node.left.distance.set(nodeCounter, 0);
-						
-				node.routing.set(nodeCounter, node.left);
-				node.distance.set(nodeCounter, 1);
-						
+				if(candidates[node.row][node.col - 1] != null) {
+					
+					candidates[node.row][node.col - 1].quantity++;
+					//node.routing.set(index, element);
+				
+				}else {
+				
+					nodeCounter++;
+					
+					node.left = new Node(); //Dont create the node yet, just save reference
+					node.left.id = nodeCounter;
+					node.left.room = new Room();
+					node.left.col = node.col - 1;
+					node.left.row = node.row;
+					node.left.distance.set(nodeCounter, 0);
+					
+					node.routing.set(nodeCounter, node.left);
+					node.distance.set(nodeCounter, 1);
+					
+					candidates[node.row][node.col - 1] = node.left;
+					node.left.quantity = 1;
+					
+				}
+
+				candidateCounter++; 
+				
 			}
 					
 					
@@ -281,6 +372,17 @@ public class Floor {
 		node.checked = true;
 		System.out.println(node.id + " : " + node.routing.toString());
 		System.out.println(node.id + " : " + node.distance.toString());
+		System.out.print("Candidates: ");
+		
+		for(int i = 0; i < 16; i++) {
+			for(int j = 0; j < 16; j++) {
+				
+				if(candidates[i][j] != null) System.out.print("id " + candidates[i][j].id + " = " + candidates[i][j].quantity + ", ");
+				
+			}
+		}
+		
+		System.out.println();
 		System.out.println();
 		
 	}
