@@ -101,12 +101,17 @@ public class Floor {
 				
 				if(candidates[i][j] != null) {
 					
-					if(randomInt == randomCounter) {
+					for(int k = 0; k < candidates[i][j].quantity; k++) {
 						
-						//candidates[i][j] //TODO Link to correct node, make weights correct
+						if(randomInt == randomCounter) {
+							
+							System.out.println("["+ i + "," + j + "] : " + countRoutes(i, j));
+							
+						}
 						
-					}else randomCounter++;
+						randomCounter++;
 						
+					}
 					
 				}
 				
@@ -115,8 +120,22 @@ public class Floor {
 		
 	}
 	
+	private int countRoutes(int i, int j) {
+		
+		int ret = 0;
+		
+		if(candidates[i][j].row > 0 && hasNode[ candidates[i][j].row - 1][ candidates[i][j].col ]) ret++;
+		if(hasNode[ candidates[i][j].row + 1][ candidates[i][j].col ]) ret++;
+		if(candidates[i][j].col > 0 && hasNode[ candidates[i][j].row][ candidates[i][j].col - 1]) ret++;
+		if(hasNode[ candidates[i][j].row][ candidates[i][j].col + 1]) ret++;
+		
+		return ret;
+		
+	}
+	
 	private void fillRouting(Node node) { 
 		//TODO Make this all into one big thing with a var telling which side it is Node next = node.up;
+		//TODO Make methods to make this more understandable
 		
 		//UP
  		if(node.row > 0 && 
