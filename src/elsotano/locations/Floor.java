@@ -5,8 +5,9 @@ import java.util.Random;
 
 public class Floor {
 
-	private boolean[][] hasNode = new boolean[15][15];
+	private boolean[][] hasNode = new boolean[15][15]; //TODO delete this cuz we have node array
 	private Node[][] candidates = new Node[16][16];
+	private Node[][] definitive = new Node[15][15];
 	private Node start;
 	private int nodeCounter;
 	int candidateCounter;
@@ -53,7 +54,7 @@ public class Floor {
 		
 	}
 	
-	public Floor() {
+	public Floor() { //TODO delete routing, not distance
 		
 		candidateCounter = 0;
 		nodeCounter = 2;
@@ -72,6 +73,10 @@ public class Floor {
 		start.right = new Node();
 		start.down = new Node();
 		
+		definitive[0][0] = start;
+		definitive[0][1] = start.right;
+		definitive[1][0] = start.down;
+		
 		start.right.room = new Room();
 		start.down.room = new Room();
 		start.right.left = start;
@@ -85,12 +90,16 @@ public class Floor {
 		start.right.row = 0;
 		start.right.col = 1;
 		
-		fillRouting(start);
-		chooseCandidate();
+		for(int i = 0; i < 10; i++) {
+			
+			fillRouting(start);
+			chooseCandidate();
+			
+		}
 		
 	}
 	
-	private void chooseCandidate() {
+	private void chooseCandidate() { //TODO Method link candidate
 		
 		Random random = new Random();
 		int randomInt = random.nextInt(candidateCounter);
@@ -106,6 +115,35 @@ public class Floor {
 						if(randomInt == randomCounter) {
 							
 							System.out.println("["+ i + "," + j + "] : " + countRoutes(i, j));
+							Node connectedTo = chooseRoad(i, j);
+							char direction = chooseDirection(connectedTo, i, j);
+							definitive[i][j] = candidates[i][j];
+							
+							switch(direction) {
+							
+								case 'u' : 
+									candidates[i][j].up = connectedTo;
+									connectedTo.down = candidates[i][j];
+									break;
+									
+								case 'd' : 
+									candidates[i][j].down = connectedTo;
+									connectedTo.up = candidates[i][j];
+									break;
+									
+								case 'l' : 
+									candidates[i][j].left = connectedTo;
+									connectedTo.right = candidates[i][j];
+									break;
+									
+								case 'r' :
+									candidates[i][j].right = connectedTo;
+									connectedTo.left = candidates[i][j];
+									break;
+									
+								default : System.out.println("Algo falla"); break;
+								
+							}
 							
 						}
 						
@@ -118,6 +156,17 @@ public class Floor {
 			}
 		}
 		
+		for(int i = 0; i < 15; i++) {
+			for(int j = 0; j < 15; j++) {
+				
+				if(definitive[i][j] != null) System.out.print(definitive[i][j].id + ", ");
+				
+			}
+		}
+		
+		System.out.println();
+		System.out.println();
+		
 	}
 	
 	private int countRoutes(int i, int j) {
@@ -128,6 +177,64 @@ public class Floor {
 		if(hasNode[ candidates[i][j].row + 1][ candidates[i][j].col ]) ret++;
 		if(candidates[i][j].col > 0 && hasNode[ candidates[i][j].row][ candidates[i][j].col - 1]) ret++;
 		if(hasNode[ candidates[i][j].row][ candidates[i][j].col + 1]) ret++;
+		
+		return ret;
+		
+	}
+	
+	private char chooseDirection(Node node, int i, int j) {
+		
+		char ret = ' ';
+		
+		if(i > 0 && node == definitive[i - 1][j]) ret = 'u';
+		if(node == definitive[i + 1][j]) ret = 'd';
+		if(j > 0 && node == definitive[i][j - 1]) ret = 'l';
+		if(node == definitive[i][j + 1]) ret = 'r';
+		
+		return ret;
+		
+	}
+	
+	private Node chooseRoad(int i, int j) {
+		
+		Node ret = new Node();
+		int routes = countRoutes(i, j);
+		
+		Random random = new Random();
+		int randomInt = random.nextInt(routes);
+		int randomCounter = 0;
+		
+		if(candidates[i][j].row > 0 && hasNode[ candidates[i][j].row - 1][ candidates[i][j].col ]) {
+			
+			if(randomCounter == randomInt) ret = definitive[i - 1][j];
+					
+			randomCounter++;
+			
+		}
+		
+		if(hasNode[ candidates[i][j].row + 1][ candidates[i][j].col ]) {
+			
+			if(randomCounter == randomInt) ret = definitive[i + 1][j];
+					
+			randomCounter++;
+			
+		}
+		
+		if(candidates[i][j].col > 0 && hasNode[ candidates[i][j].row][ candidates[i][j].col - 1]) {
+			
+			if(randomCounter == randomInt) ret = definitive[i][j - 1];
+					
+			randomCounter++;
+			
+		}
+		
+		if(hasNode[ candidates[i][j].row][ candidates[i][j].col + 1]) {
+			
+			if(randomCounter == randomInt) ret = definitive[i][j + 1];
+					
+			randomCounter++;
+			
+		}
 		
 		return ret;
 		
@@ -402,6 +509,7 @@ public class Floor {
 		}
 		
 		System.out.println();
+		
 		System.out.println();
 		
 	}
