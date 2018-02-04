@@ -3,7 +3,7 @@ package elsotano.locations;
 import lombok.Data;
 
 @Data
-public class Sala {
+public class Room {
 	
 	private String roomCode;
 	
@@ -11,7 +11,7 @@ public class Sala {
 	private float temperature;
 	private float humidity;
 	
-	public Sala() {
+	public Room() {
 		
 		roomCode = " ";
 		temperature = 0;
@@ -19,7 +19,7 @@ public class Sala {
 		
 	}
 	
-	public Sala(String roomCode, boolean[] hasDoor, float temperature, float humidity) {
+	public Room(String roomCode, boolean[] hasDoor, float temperature, float humidity) {
 		
 		this.roomCode = roomCode;
 		this.hasDoor = hasDoor;

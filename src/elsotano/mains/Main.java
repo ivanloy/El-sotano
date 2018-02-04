@@ -2,7 +2,7 @@ package elsotano.mains;
 
 import java.util.Random;
 
-import elsotano.locations.Sala;
+import elsotano.locations.Room;
 import elsotano.resources.Grid;
 
 
@@ -10,7 +10,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		Sala[][] salas = new Sala[5][5];
+		Room[][] salas = new Room[5][5];
 		Random random = new Random();
 		Grid grid = new Grid(5 * 10, 5 * 5);
 		
@@ -52,7 +52,7 @@ public class Main {
 				float temperature = random.nextFloat()*40-10;
 				String roomCode = (char)(i + 65) + "" + j;
 				
-				salas[i][j] = new Sala(roomCode, hasDoor, temperature, humidity);
+				salas[i][j] = new Room(roomCode, hasDoor, temperature, humidity);
 				
 			}
 		}
