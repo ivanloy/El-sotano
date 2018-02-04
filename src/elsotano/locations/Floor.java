@@ -100,10 +100,27 @@ public class Floor {
 		
 	}
 	
+	private int calculateCandidates() {
+		
+		int ret = 0; //TODO Dont do this and fix candidate counter or at least delete it
+		
+		for(int i = 0; i < 16; i++) {
+			for(int j = 0; j < 16; j++) {
+				
+				if(candidates[i][j] != null) ret += candidates[i][j].quantity;
+				
+			}
+		}
+		
+		return ret;
+		
+	}
+	
 	private void chooseCandidate() { //TODO Method link candidate
 		
 		Random random = new Random();
-		int randomInt = random.nextInt(candidateCounter);
+		int numberOfCandidates = calculateCandidates();
+		int randomInt = random.nextInt(numberOfCandidates);
 		int randomCounter = 0;
 		//TODO Print road direction
 		for(int i = 0; i < 16; i++) {
