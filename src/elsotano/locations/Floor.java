@@ -90,7 +90,7 @@ public class Floor {
 		start.right.row = 0;
 		start.right.col = 1;
 		
-		for(int i = 0; i < 10; i++) {
+		for(int i = 0; i < 12; i++) { //TODO Reset node saves for new fillRouting
 			
 			fillRouting(start);
 			chooseCandidate();
@@ -104,20 +104,33 @@ public class Floor {
 		Random random = new Random();
 		int randomInt = random.nextInt(candidateCounter);
 		int randomCounter = 0;
-		
+		//TODO Print road direction
 		for(int i = 0; i < 16; i++) {
 			for(int j = 0; j < 16; j++) {
 				
-				if(candidates[i][j] != null) {
+				if(candidates[i][j] != null) { //TODO Remove this if
 					
-					for(int k = 0; k < candidates[i][j].quantity; k++) {
+					for(int k = 0; candidates[i][j] != null && k < candidates[i][j].quantity; k++) {
 						
 						if(randomInt == randomCounter) {
 							
-							System.out.println("["+ i + "," + j + "] : " + countRoutes(i, j));
+							System.out.println("iteration " + i + ", " + j); //TODO fix 2,0 always 'u'
 							Node connectedTo = chooseRoad(i, j);
 							char direction = chooseDirection(connectedTo, i, j);
+							
+							Node backPropagation = connectedTo;
+							
+							while(backPropagation.prev != null) {
+								
+								backPropagation.checked = false;
+								backPropagation = backPropagation.prev;
+								
+							}
+							
+							System.out.println("["+ i + "," + j + "] : " + countRoutes(i, j) + ", direction = " + direction);
+							
 							definitive[i][j] = candidates[i][j];
+							hasNode[i][j] = true;
 							
 							switch(direction) {
 							
@@ -144,6 +157,9 @@ public class Floor {
 								default : System.out.println("Algo falla"); break;
 								
 							}
+
+							candidateCounter -= candidates[i][j].quantity;
+							candidates[i][j] = null;
 							
 						}
 						
@@ -169,7 +185,7 @@ public class Floor {
 		
 	}
 	
-	private int countRoutes(int i, int j) {
+	private int countRoutes(int i, int j) { //TODO Dont count candidates for fillRouting
 		
 		int ret = 0;
 		
@@ -259,13 +275,13 @@ public class Floor {
 				
 				for(Node n : node.up.routing) {
 					
-					if(n != node && node.routing.get(n.id) == null) {
+					if(n != node && n != null &&  node.routing.get(n.id) == null) {
 						
 						node.routing.set(n.id, node.up);
 						node.distance.set(n.id, node.up.distance.get(n.id) + 1);
-						
+						//TODO CORRECT DISTANCES
 					}
-					else if(n != node && node.distance.get(n.id) > node.up.distance.get(n.id) + 1) {
+					else if(n != node && n != null &&  node.distance.get(n.id) > node.up.distance.get(n.id) + 1) {
 						
 						node.routing.set(n.id, node.up);
 						node.distance.set(n.id, node.up.distance.get(n.id) + 1);
@@ -285,18 +301,18 @@ public class Floor {
 				
 					nodeCounter++;
 					
-					node.up = new Node(); //Dont create the node yet, just save reference
-					node.up.id = nodeCounter;
-					node.up.room = new Room();
-					node.up.col = node.col;
-					node.up.row = node.row - 1;
-					node.up.distance.set(nodeCounter, 0);
+					Node up = new Node(); //Dont create the node yet, just save reference
+					up.id = nodeCounter;
+					up.room = new Room();
+					up.col = node.col;
+					up.row = node.row - 1;
+					up.distance.set(nodeCounter, 0);
 					
-					node.routing.set(nodeCounter, node.up);
+					node.routing.set(nodeCounter, up);
 					node.distance.set(nodeCounter, 1);
 					
-					candidates[node.row - 1][node.col] = node.up; //TODO put var names for node.up blablabla
-					node.up.quantity = 1;
+					candidates[node.row - 1][node.col] = up; //TODO put var names for node.up blablabla
+					up.quantity = 1;
 					
 				}
 
@@ -337,7 +353,8 @@ public class Floor {
 						
 			}else if(!hasNode[node.row + 1][node.col]) {
 						
-				if(candidates[node.row + 1][node.col] != null) {
+				if(candidates[node.row + 1][node.col] != null) { //TODO FIX WEIGHTS, checks if a node already counted a candidate
+					//TODO Too many left, dont know if its just bad luck //too many in first row
 					
 					candidates[node.row + 1][node.col].quantity++;
 					//node.routing.set(index, element);
@@ -347,18 +364,18 @@ public class Floor {
 					nodeCounter++;
 					
 					//TODO Rows and columns and save multiple roads to same node in grid
-					node.down = new Node(); //Dont create the node yet, just save reference
-					node.down.id = nodeCounter;
-					node.down.room = new Room();
-					node.down.col = node.col;
-					node.down.row = node.row + 1;
-					node.down.distance.set(nodeCounter, 0);
+					Node down = new Node(); //Dont create the node yet, just save reference
+					down.id = nodeCounter;
+					down.room = new Room();
+					down.col = node.col;
+					down.row = node.row + 1;
+					down.distance.set(nodeCounter, 0);
 					
-					node.routing.set(nodeCounter, node.down);
+					node.routing.set(nodeCounter, down);
 					node.distance.set(nodeCounter, 1);
 					
-					candidates[node.row + 1][node.col] = node.down;
-					node.down.quantity = 1;
+					candidates[node.row + 1][node.col] = down;
+					down.quantity = 1;
 					
 				}
 
@@ -410,18 +427,18 @@ public class Floor {
 				
 					nodeCounter++;
 					
-					node.right = new Node(); //Dont create the node yet, just save reference
-					node.right.id = nodeCounter;
-					node.right.room = new Room();
-					node.right.col = node.col + 1;
-					node.right.row = node.row;
-					node.right.distance.set(nodeCounter, 0);
+					Node right = new Node(); //Dont create the node yet, just save reference
+					right.id = nodeCounter;
+					right.room = new Room();
+					right.col = node.col + 1;
+					right.row = node.row;
+					right.distance.set(nodeCounter, 0);
 					
-					node.routing.set(nodeCounter, node.right);
+					node.routing.set(nodeCounter, right);
 					node.distance.set(nodeCounter, 1);
 					
-					candidates[node.row][node.col + 1] = node.right;
-					node.right.quantity = 1;
+					candidates[node.row][node.col + 1] = right;
+					right.quantity = 1;
 					
 				}
 
@@ -473,18 +490,18 @@ public class Floor {
 				
 					nodeCounter++;
 					
-					node.left = new Node(); //Dont create the node yet, just save reference
-					node.left.id = nodeCounter;
-					node.left.room = new Room();
-					node.left.col = node.col - 1;
-					node.left.row = node.row;
-					node.left.distance.set(nodeCounter, 0);
+					Node left = new Node(); //Dont create the node yet, just save reference
+					left.id = nodeCounter;
+					left.room = new Room();
+					left.col = node.col - 1;
+					left.row = node.row;
+					left.distance.set(nodeCounter, 0);
 					
-					node.routing.set(nodeCounter, node.left);
+					node.routing.set(nodeCounter, left);
 					node.distance.set(nodeCounter, 1);
 					
-					candidates[node.row][node.col - 1] = node.left;
-					node.left.quantity = 1;
+					candidates[node.row][node.col - 1] = left;
+					left.quantity = 1;
 					
 				}
 

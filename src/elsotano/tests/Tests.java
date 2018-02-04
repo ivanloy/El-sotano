@@ -7,6 +7,7 @@ public class Tests {
 	public static void main(String[] args) {
 		
 		Floor floor = new Floor();
+		
 	}
 
 }
