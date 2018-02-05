@@ -100,6 +100,61 @@ public class Floor {
 		
 	}
 	
+	
+	
+	public Room[][] exportFloor(){
+		
+		Room[][] rooms = new Room[15][15];
+		
+		for(int i = 0; i < 15; i++) {
+			for(int j = 0; j < 15; j++) {
+				
+				if(definitive[i][j] != null) {
+					
+					rooms[i][j] = definitive[i][j].room;
+					
+					rooms[i][j].hasDoor[0] = false;
+					rooms[i][j].hasDoor[1] = false;
+					rooms[i][j].hasDoor[2] = false;
+					rooms[i][j].hasDoor[3] = false;
+					
+					if(definitive[i][j].up != null) {
+						
+						System.out.println("[" + definitive[i][j].row + "," + definitive[i][j].col + "] : " + "up has door");
+						rooms[i][j].hasDoor[0] = true;
+						
+					}
+					
+					if(definitive[i][j].right != null) {
+						
+						System.out.println("[" + definitive[i][j].row + "," + definitive[i][j].col + "] : " + "right has door");
+						rooms[i][j].hasDoor[1] = true;
+						
+					}
+					
+					if(definitive[i][j].down != null) {
+						
+						System.out.println("[" + definitive[i][j].row + "," + definitive[i][j].col + "] : " + "down has door");
+						rooms[i][j].hasDoor[2] = true;
+						
+					}
+					
+					if(definitive[i][j].left != null) {
+						
+						System.out.println("[" + definitive[i][j].row + "," + definitive[i][j].col + "] : " + "left has door");
+						rooms[i][j].hasDoor[3] = true;
+						
+					}
+					
+				}
+				
+			}
+		}
+		
+		return rooms;
+		
+	}
+	
 	private int calculateCandidates() {
 		
 		int ret = 0; //TODO Dont do this and fix candidate counter or at least delete it

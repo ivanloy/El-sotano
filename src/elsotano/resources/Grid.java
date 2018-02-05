@@ -172,27 +172,29 @@ public class Grid {
 		
 		 rect(row * 9, col * 4, 10, 5);
 		 
-		 if(!hasDoor[0]) {
+		 System.out.println("f [" + row + "," + col + "] : " + hasDoor[0] + ", " + hasDoor[1] + ", " + hasDoor[2] + ", " + hasDoor[3]);
+		 
+		 if(hasDoor[0]) {
 			 
 			 tile[row * 9 + 4][col * 4] = 0;
 			 tile[row * 9 + 5][col * 4] = 0;
 			 
 		 }
 		 
-		 if(!hasDoor[1]) {
+		 if(hasDoor[1]) {
 			 
 			 tile[row * 9 + 9][col * 4 + 2] = 0;
 			 
 		 }
 		 
-		 if(!hasDoor[2]) {
+		 if(hasDoor[2]) {
 			 
 			 tile[row * 9 + 4][col * 4 + 4] = 0;
 			 tile[row * 9 + 5][col * 4 + 4] = 0;
 			 
 		 }
 		 
-		 if(!hasDoor[3]) {
+		 if(hasDoor[3]) {
 			 
 			 tile[row * 9][col * 4 + 2] = 0;
 			 
