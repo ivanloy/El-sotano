@@ -11,7 +11,7 @@ public class Tests {
 		Floor floor = new Floor();
 		Room[][] rooms = floor.exportFloor();
 		
-		Grid grid = new Grid(15 * 10, 15 * 5); //TODO get width and height of the dungeon
+		Grid grid = new Grid(floor.getWidth() * 10, floor.getHeight() * 5); //TODO get width and height of the dungeon
 		
 		for(int i = 0; i < 15; i++) {
 			for(int j = 0; j < 15; j++){
