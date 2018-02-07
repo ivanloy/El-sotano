@@ -100,7 +100,37 @@ public class Floor {
 		
 	}
 	
+	public int getHeight() {
+		
+		int ret = 0;
+		
+		for(int i = 0; i < 15; i++) {
+			for(int j = 0; j < 15; j++) {
+				
+				if(definitive[i][j] != null && i > ret) ret++;
+				
+			}
+		}
+				
+		return ++ret;
+		
+	}
 	
+	public int getWidth() {
+		
+		int ret = 0;
+		
+		for(int i = 0; i < 15; i++) {
+			for(int j = 0; j < 15; j++) {
+				
+				if(definitive[i][j] != null && j > ret) ret++;
+				
+			}
+		}
+				
+		return ++ret;
+		
+	}
 	
 	public Room[][] exportFloor(){
 		
