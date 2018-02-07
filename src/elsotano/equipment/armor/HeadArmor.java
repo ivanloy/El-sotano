@@ -3,19 +3,19 @@ package elsotano.equipment.armor;
 import lombok.Data;
 
 @Data
-public class ChestArmor implements Cloneable{
+public class HeadArmor implements Cloneable {
 
 	private int defense;
 	private String name;
 	
-	public ChestArmor() {
+	public HeadArmor() {
 		
 		defense = 0;
 		name = " ";
 		
 	}
 	
-	public ChestArmor(int defense) {
+	public HeadArmor(int defense) {
 		
 		this.defense = defense;
 		name = " ";
@@ -23,13 +23,13 @@ public class ChestArmor implements Cloneable{
 	}
 	
 	@Override
-	public ChestArmor clone() {
+	public HeadArmor clone() {
 		
-		ChestArmor copy = null;
+		HeadArmor copy = null;
 		
 		try {
 			
-			copy = (ChestArmor) super.clone();
+			copy = (HeadArmor) super.clone();
 			
 		}catch(CloneNotSupportedException err) {
 			
