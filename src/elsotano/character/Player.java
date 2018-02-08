@@ -1,43 +1,69 @@
 package elsotano.character;
 
+import elsotano.equipment.accessories.Gloves;
+import elsotano.equipment.accessories.Ring;
+import elsotano.equipment.accessories.Shoes;
 import elsotano.equipment.armor.ChestArmor;
-import elsotano.equipment.armor.LegsArmor;
 import elsotano.equipment.armor.HeadArmor;
+import elsotano.equipment.armor.LegsArmor;
 import elsotano.equipment.weapons.Sword;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
+@ToString
 public class Player {
 
 	@Getter @Setter private int baseAttack;
 	@Getter @Setter private int baseDefense;
+	@Getter @Setter private int baseAgility;
+	@Getter @Setter private int baseLuck;
+	
 	@Getter @Setter private String name;
+	
 	private Sword sword; //TODO Make it weapon
 	private ChestArmor chestArmor;
 	private LegsArmor legsArmor;
 	private HeadArmor headArmor;
+	private Gloves gloves;
+	private Shoes shoes;
+	private Ring ring;
 	
 	public Player() {
 		
 		baseAttack = 0;
 		baseDefense = 0;
+		baseAgility = 0;
+		baseLuck = 0;
+		
 		name = " ";
+		
 		sword = new Sword();
 		chestArmor = new ChestArmor();
 		legsArmor = new LegsArmor();
 		headArmor = new HeadArmor();
+		gloves = new Gloves();
+		shoes = new Shoes();
+		ring = new Ring();
 		
 	}
 	
-	public Player(int baseAttack, int baseDefense) {
+	public Player(int baseAttack, int baseDefense, int baseAgility, int baseLuck) {
 		
 		this.baseAttack = baseAttack;
 		this.baseDefense = baseDefense;
-		sword = new Sword();
+		this.baseAgility = baseAgility;
+		this.baseLuck = baseLuck;
+		
 		name = " ";
+		
+		sword = new Sword();
 		chestArmor = new ChestArmor();
 		legsArmor = new LegsArmor();
 		headArmor = new HeadArmor();
+		gloves = new Gloves();
+		shoes = new Shoes();
+		ring = new Ring();
 		
 	}
 	
@@ -63,6 +89,9 @@ public class Player {
 	public int getLegsArmorDefense() { return legsArmor.getDefense(); }
 	public void setLegsArmorDefense(int defense) { legsArmor.setDefense(defense); }
 	
+	public int getLegsArmorAgility() { return legsArmor.getAgility(); }
+	public void setLegsArmorAgility(int agility) { legsArmor.setAgility(agility); }
+	
 	
 	public HeadArmor getHeadArmor() { return this.headArmor.clone(); }
 	public void setHeadArmor(HeadArmor headArmor) { this.headArmor = headArmor.clone(); }
@@ -71,24 +100,52 @@ public class Player {
 	public void setHeadArmorDefense(int defense) { headArmor.setDefense(defense); }
 	
 	
+	public Gloves getGloves() { return this.gloves.clone(); }
+	public void setGloves(Gloves gloves) { this.gloves = gloves.clone(); }
+	
+	public int getGlovesDefense() { return gloves.getDefense(); }
+	public void setGlovesDefense(int defense) { gloves.setDefense(defense); }
+	
+	
+	public Shoes getShoes() { return this.shoes.clone(); }
+	public void setShoes(Shoes shoes) { this.shoes = shoes.clone(); }
+	
+	public int getShoesAgility() { return shoes.getAgility(); }
+	public void setShoesAgility(int agility) { shoes.setAgility(agility); }
+	
+	
+	public Ring getRing() { return this.ring.clone(); }
+	public void setRing(Ring ring) { this.ring = ring.clone(); }
+	
+	public int getRingAgility() { return ring.getLuck(); }
+	public void setRingAgility(int luck) { ring.setLuck(luck); }
+	
+	
 	public int getAttack() { return baseAttack + sword.getPower(); }
-	public int getDefense() { return baseDefense + chestArmor.getDefense() + headArmor.getDefense() + legsArmor.getDefense(); }
+	public int getDefense() { return baseDefense + chestArmor.getDefense() + headArmor.getDefense() + legsArmor.getDefense() + gloves.getDefense(); }
+	public int getAgility() { return baseAgility + shoes.getAgility() + legsArmor.getAgility(); }
+	public int getLuck() { return baseLuck + ring.getLuck(); }
 	
 	//--------------------------------------
 	
-	public String toString() { //TODO Put weapons and player names //TODO Make method and make just parameters toString
+	public String printStats() {
 		
 		return "-----------------------------------------------" +
-			 "\n " + name.toUpperCase() +
-			 "\n-----------------------------------------------" +
-			 "\n Attack: " + getAttack() + " (" + baseAttack + " + " + (getAttack() - baseAttack) + ")" + 
-		     "\n Defense: " + getDefense() + " (" + baseDefense + " + " + (getDefense() - baseDefense) + ")" +
-			 "\n-----------------------------------------------" + 
-		     "\n Sword: \n\t" + sword.getName() + "\n\t+" + sword.getPower() + " attack." + 
-			 "\n\n Head Armor: \n\t" + headArmor.getName() + "\n\t+" + headArmor.getDefense() + " defense." +
-			 "\n\n Chest Armor: \n\t" + chestArmor.getName() + "\n\t+" + chestArmor.getDefense() + " defense." +
-			 "\n\n Legs Armor: \n\t" + legsArmor.getName() + "\n\t+" + legsArmor.getDefense() + " defense." +
-			 "\n-----------------------------------------------";
+				 "\n " + name.toUpperCase() +
+				 "\n-----------------------------------------------" +
+				 "\n Attack: " + getAttack() + " (" + baseAttack + " + " + (getAttack() - baseAttack) + ")" + 
+			     "\n Defense: " + getDefense() + " (" + baseDefense + " + " + (getDefense() - baseDefense) + ")" +
+			     "\n Agility: " + getAgility() + " (" + baseAgility + " + " + (getAgility() - baseAgility) + ")" +
+			     "\n Luck: " + getLuck() + " (" + baseLuck + " + " + (getLuck() - baseLuck) + ")" +
+				 "\n-----------------------------------------------" + 
+			     "\n Sword: \n\t" + sword.getName() + "\n\t+" + sword.getPower() + " attack." + 
+				 "\n\n Head Armor: \n\t" + headArmor.getName() + "\n\t+" + headArmor.getDefense() + " defense." +
+				 "\n\n Chest Armor: \n\t" + chestArmor.getName() + "\n\t+" + chestArmor.getDefense() + " defense." +
+				 "\n\n Legs Armor: \n\t" + legsArmor.getName() + "\n\t+" + legsArmor.getDefense() + " defense." + "\n\t+" + legsArmor.getAgility() + " agility." +
+				 "\n\n Gloves: \n\t" + gloves.getName() + "\n\t+" + gloves.getDefense() + " defense." +
+				 "\n\n Shoes: \n\t" + shoes.getName() + "\n\t+" + shoes.getAgility() + " agility." +
+				 "\n\n Ring: \n\t" + ring.getName() + "\n\t+" + ring.getLuck() + " luck." +
+				 "\n-----------------------------------------------";
 		
 	}
 	
