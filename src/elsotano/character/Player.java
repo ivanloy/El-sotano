@@ -149,7 +149,6 @@ public class Player {
 		
 	}
 	
-	
 	public int getMaxHP() { return baseMaxHP + chestArmor.getMaxHP(); }
 	public int getAttack() { return baseAttack + sword.getPower(); }
 	public int getDefense() { return baseDefense + chestArmor.getDefense() + headArmor.getDefense() + legsArmor.getDefense() + gloves.getDefense(); }
@@ -175,24 +174,25 @@ public class Player {
 	
 	public void attack(SimpleEnemy enemy) { //TODO Inheritance and stuff
 		
-		//double atkDefRelation = 10; 
-		
-		//if(enemy.getBaseDefense() > 0) atkDefRelation = (double)this.getAttack() / enemy.getBaseDefense();
-		
-		//double damagePercentage = 0;
-		
-		//if (atkDefRelation >= 1) damagePercentage = MathUtilities.map(atkDefRelation, 1, 10, 0.5, 1);
-		//else 					 damagePercentage = MathUtilities.map(atkDefRelation, 0.1, 1, 0, 0.5);
-		
-		//int baseDamage = (int)(this.getAttack() * damagePercentage); //TODO add armor and defense and stuff 
 		int baseDamage = (int)((this.getAttack() * this.getAttack()) / ((this.getAttack() + enemy.getBaseDefense())));
-		int realDamage = (int)(baseDamage + baseDamage * (Math.random() * 0.4 - 0.2));
+		int critDamage = doesCritDamage() ? (int)(baseDamage * 0.5) : 0;
+		int realDamage = (int)(critDamage + baseDamage + baseDamage * (Math.random() * 0.4 - 0.2));
 		
 		if(realDamage <= 0) realDamage = 1;
 		
 		enemy.dealDamage(realDamage);
 		
-		System.out.println(name + " dealed " + realDamage + " damage to " + enemy.getName() + ". Now it has " + enemy.getCurrentHP() + "HP.");//TODO DELETE PRINT OR SAMSING
+		System.out.println((doesCritDamage() ? "CRITICAL!! " : "") + name + " dealed " + realDamage + " damage to " + enemy.getName() + ". Now it has " + enemy.getCurrentHP() + "HP.");//TODO DELETE PRINT OR SAMSING
+		
+	}
+	
+	public boolean doesCritDamage() {
+		
+		boolean ret = false;
+		
+		if(Math.random() < getLuck()/100) ret = true; //TODO IMPROVE THIS WITH MAP OR TABLE OR ANYTHING
+		
+		return ret;
 		
 	}
 	

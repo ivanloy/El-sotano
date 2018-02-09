@@ -35,7 +35,7 @@ public class PlayerTest {
 		Ring ring = new Ring(1);
 		ring.setName("Anillo de los chinos");
 		
-		Player player = new Player(89, 44, 8, 12, 0);
+		Player player = new Player(89, 44, 8, 12, 50);
 		
 		player.setSword(sword);
 		player.setChestArmor(chestArmor);
