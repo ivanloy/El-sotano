@@ -1,6 +1,7 @@
 package elsotano.tests;
 
 import elsotano.character.Player;
+import elsotano.enemies.SimpleEnemy;
 import elsotano.equipment.accessories.Gloves;
 import elsotano.equipment.accessories.Ring;
 import elsotano.equipment.accessories.Shoes;
@@ -13,10 +14,10 @@ public class PlayerTest {
 
 	public static void main(String[] args) {
 		
-		Sword sword = new Sword(24);
+		Sword sword = new Sword(26);
 		sword.setName("Femur afilado");
 		
-		ChestArmor chestArmor = new ChestArmor(12);
+		ChestArmor chestArmor = new ChestArmor(34, 12);
 		chestArmor.setName("Chaleco a prueba de doble return");
 		
 		HeadArmor headArmor = new HeadArmor(6);
@@ -34,7 +35,7 @@ public class PlayerTest {
 		Ring ring = new Ring(1);
 		ring.setName("Anillo de los chinos");
 		
-		Player player = new Player(34, 8, 12, 0);
+		Player player = new Player(89, 44, 8, 12, 0);
 		
 		player.setSword(sword);
 		player.setChestArmor(chestArmor);
@@ -44,11 +45,26 @@ public class PlayerTest {
 		player.setShoes(shoes);
 		player.setRing(ring);
 		
+		player.setCurrentHP(200);
+		chestArmor.setMaxHP(10);
+		player.setChestArmor(chestArmor);
+		player.setChestArmorMaxHP(5);
+		//player.dealDamage(100);
+		
 		player.setName("Manolo");
 		
 		System.out.println(player.printStats());
 		
+		SimpleEnemy enemy = new SimpleEnemy(280, 12, 15, 5, 3);
+		enemy.setName("Psudocodigo zombie");
 		
+		player.attack(enemy);
+		player.attack(enemy);
+		player.attack(enemy);
+		player.attack(enemy);
+		player.attack(enemy);
+		player.attack(enemy);
+				
 	}
 
 }

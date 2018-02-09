@@ -6,18 +6,21 @@ import lombok.Data;
 public class ChestArmor implements Cloneable{
 
 	private int defense;
+	private int maxHP;
 	private String name;
 	
 	public ChestArmor() {
 		
 		defense = 0;
+		maxHP = 0;
 		name = " ";
 		
 	}
 	
-	public ChestArmor(int defense) {
+	public ChestArmor(int maxHP, int defense) {
 		
 		this.defense = defense;
+		this.maxHP = maxHP;
 		name = " ";
 		
 	}
