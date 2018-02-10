@@ -3,7 +3,7 @@ package elsotano.equipment.armor;
 import lombok.Data;
 
 @Data
-public class LegsArmor implements Cloneable { //TODO change to LEGS Armor...wtf
+public class LegsArmor implements Cloneable { //TODO add inheritance
 
 	private int defense;
 	private int agility;
