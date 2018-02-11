@@ -1,6 +1,7 @@
 package elsotano.tests;
 
 import elsotano.character.Player;
+import elsotano.combat.Combat;
 import elsotano.enemies.SimpleEnemy;
 import elsotano.equipment.accessories.Gloves;
 import elsotano.equipment.accessories.Ring;
@@ -71,6 +72,11 @@ public class PlayerTest {
 		System.out.println(player.printStats());
 		enemy.attack(player);
 		System.out.println(player.printStats());
+		
+		enemy.healDamage(200);
+		
+		Combat combat = new Combat(player, enemy);
+		combat.startCombat();
 		
 				
 	}
