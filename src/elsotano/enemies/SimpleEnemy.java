@@ -10,9 +10,9 @@ public class SimpleEnemy extends EnemyParent {
 		
 	}
 	
-	public SimpleEnemy(int baseMaxHP, int baseAttack, int baseDefense, int baseAgility, int baseLuck) {
+	public SimpleEnemy(int baseMaxHP, int baseAttack, int baseDefense, int baseAgility, int baseLuck, int baseSpeed) {
 		
-		super(baseMaxHP, baseAttack, baseDefense, baseAgility, baseLuck);
+		super(baseMaxHP, baseAttack, baseDefense, baseAgility, baseLuck, baseSpeed);
 		
 	}
 	

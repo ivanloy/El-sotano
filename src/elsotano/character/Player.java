@@ -20,6 +20,7 @@ public class Player {
 	@Getter @Setter private int baseDefense;
 	@Getter @Setter private int baseAgility;
 	@Getter @Setter private int baseLuck;
+	@Getter @Setter private int baseSpeed;
 	@Getter @Setter private int baseMaxHP;
 	@Getter private int currentHP;
 	
@@ -41,6 +42,7 @@ public class Player {
 		baseDefense = 0;
 		baseAgility = 0;
 		baseLuck = 0;
+		baseSpeed = 0;
 		
 		name = " ";
 		
@@ -54,7 +56,7 @@ public class Player {
 		
 	}
 	
-	public Player(int baseMaxHP, int baseAttack, int baseDefense, int baseAgility, int baseLuck) {
+	public Player(int baseMaxHP, int baseAttack, int baseDefense, int baseAgility, int baseLuck, int baseSpeed) {
 		
 		this.baseMaxHP = baseMaxHP;
 		this.currentHP = baseMaxHP;
@@ -62,6 +64,7 @@ public class Player {
 		this.baseDefense = baseDefense;
 		this.baseAgility = baseAgility;
 		this.baseLuck = baseLuck;
+		this.baseSpeed = baseSpeed;
 		
 		name = " ";
 		
@@ -154,7 +157,7 @@ public class Player {
 	public int getDefense() { return baseDefense + chestArmor.getDefense() + headArmor.getDefense() + legsArmor.getDefense() + gloves.getDefense(); }
 	public int getAgility() { return baseAgility + shoes.getAgility() + legsArmor.getAgility(); }
 	public int getLuck() { return baseLuck + ring.getLuck(); }
-	
+	public int getSpeed() { return baseSpeed; }
 	
 	//--------------------------------------
 	
@@ -184,7 +187,7 @@ public class Player {
 		enemy.dealDamage(realDamage);
 		
 		System.out.println((doesCritDamage ? "CRITICAL!! " : "") + name + " dealed " + realDamage + (doesCritDamage ? "(+" + critDamage + ")" : "") + " damage to " + enemy.getName() + ". Now it has " + enemy.getCurrentHP() + "HP.");//TODO DELETE PRINT OR SAMSING
-		
+		//TODO get gender or it (now it has, he has, she has)
 	}//TODO EVASION CON AGILIDAD
 	
 	public double calcCritMultiplier() {
@@ -245,6 +248,7 @@ public class Player {
 			     "\n Defense: " + getDefense() + " (" + baseDefense + " + " + (getDefense() - baseDefense) + ")" +
 			     "\n Agility: " + getAgility() + " (" + baseAgility + " + " + (getAgility() - baseAgility) + ")" +
 			     "\n Luck: " + getLuck() + " (" + baseLuck + " + " + (getLuck() - baseLuck) + ")" +
+			     "\n Speed: " + getSpeed() + " (" + baseSpeed + " + " + (getSpeed() - baseSpeed) + ")" +
 				 "\n-----------------------------------------------" + 
 			     "\n Sword: \n\t" + sword.getName() + "\n\t+" + sword.getPower() + " attack." + 
 				 "\n\n Head Armor: \n\t" + headArmor.getName() + "\n\t+" + headArmor.getDefense() + " defense." +

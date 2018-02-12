@@ -11,6 +11,7 @@ public class EnemyParent {
 	private int baseDefense;
 	private int baseAgility;
 	private int baseLuck;
+	private int baseSpeed;
 	
 	private int currentHP;
 	private int baseMaxHP;
@@ -25,12 +26,13 @@ public class EnemyParent {
 		baseLuck = 0;
 		currentHP = 0;
 		baseMaxHP = 0;
+		baseSpeed = 0;
 		
 		name = " ";
 		
 	}
 	
-	public EnemyParent(int baseMaxHP, int baseAttack, int baseDefense, int baseAgility, int baseLuck) {
+	public EnemyParent(int baseMaxHP, int baseAttack, int baseDefense, int baseAgility, int baseLuck, int baseSpeed) {
 		
 		this.baseAttack = baseAttack;
 		this.baseDefense = baseDefense;
@@ -38,6 +40,7 @@ public class EnemyParent {
 		this.baseLuck = baseLuck;
 		this.baseMaxHP = baseMaxHP;
 		this.currentHP = baseMaxHP;
+		this.baseSpeed = baseSpeed;
 		
 		name = " ";
 		
@@ -57,18 +60,25 @@ public class EnemyParent {
 		
 	}
 	
-	public void attack(Player player) { //TODO Inheritance and stuff
+	public void attack(Player player, double damageMult) { //TODO Inheritance and stuff
 		
 		boolean doesCritDamage = doesCritDamage();
 		int baseDamage = (int)((this.getBaseAttack() * this.getBaseAttack()) / ((this.getBaseAttack() + player.getBaseDefense()))); //TODO Add armor and getAttack() methods
 		int critDamage = doesCritDamage ? (int)(baseDamage * calcCritMultiplier()) : 0;
 		int realDamage = (int)(critDamage + baseDamage + baseDamage * (Math.random() * 0.4 - 0.2));
+		realDamage *= damageMult;
 		
 		if(realDamage <= 0) realDamage = 1;
 		
 		player.dealDamage(realDamage);
 		
 		System.out.println((doesCritDamage ? "CRITICAL!! " : "") + name + " dealed " + realDamage + (doesCritDamage ? "(+" + critDamage + ")" : "") + " damage to " + player.getName() + ". Now it has " + player.getCurrentHP() + "HP.");
+		
+	}
+	
+	public void attack(Player player) {
+		
+		attack(player, 1);
 		
 	}
 	

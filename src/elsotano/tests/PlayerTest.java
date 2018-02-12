@@ -36,7 +36,7 @@ public class PlayerTest {
 		Ring ring = new Ring(1);
 		ring.setName("Anillo de los chinos");
 		
-		Player player = new Player(89, 44, 8, 12, 13);
+		Player player = new Player(89, 44, 8, 12, 13, 23);
 		
 		player.setSword(sword);
 		player.setChestArmor(chestArmor);
@@ -56,8 +56,8 @@ public class PlayerTest {
 		
 		System.out.println(player.printStats());
 		
-		SimpleEnemy enemy = new SimpleEnemy(280, 12, 15, 5, 3);
-		enemy.setName("Psudocodigo zombie");
+		SimpleEnemy enemy = new SimpleEnemy(280, 12, 15, 5, 3, 2324);
+		enemy.setName("Pseudocodigo zombie");
 		
 		player.attack(enemy); //ADD Logs instead or prints or something
 		player.attack(enemy);
