@@ -148,7 +148,7 @@ public class Player {
 	public void setCurrentHP(int currentHP) {
 		
 		if(currentHP > getMaxHP()) this.currentHP = getMaxHP();
-		else                       this.currentHP = currentHP;
+		else                       this.currentHP = currentHP; //TODO Framework for the stats print blablabla
 		
 	}
 	
