@@ -129,7 +129,7 @@ public class Combat {
 				
 		}while(ret < 1 || ret > 6);
 		
-		scanner.close();
+		//scanner.close();
 		
 		return ret;
 		

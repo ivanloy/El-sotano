@@ -10,6 +10,7 @@ import elsotano.equipment.armor.ChestArmor;
 import elsotano.equipment.armor.HeadArmor;
 import elsotano.equipment.armor.LegsArmor;
 import elsotano.equipment.weapons.Sword;
+import elsotano.inventories.EquipmentInventory;
 
 public class PlayerTest {
 
@@ -78,7 +79,16 @@ public class PlayerTest {
 		Combat combat = new Combat(player, enemy);
 		combat.startCombat();
 		
-				
+		EquipmentInventory eqInv = new EquipmentInventory();
+		
+ 		eqInv.addWeapon(sword = player.getSword()); //TODO BE CAUTIOUS WITH clone
+ 		eqInv.printWeaponDetails(0);
+ 		sword.setPower(20);
+ 		eqInv.printWeaponDetails(0);
+ 		System.out.println(sword.getPower());
+ 		
+		eqInv.printWeaponInventory();
+		
 	}
 
 }

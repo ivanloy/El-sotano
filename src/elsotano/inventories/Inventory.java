@@ -2,10 +2,10 @@ package elsotano.inventories;
 
 import java.util.Iterator;
 
-public class Inventory<T> implements Iterable<T>{
+public class Inventory<T> implements Iterable<T>{ //TODO ORDENACION
 
-	int size;
-	T[] inventory;
+	private int size;
+	private T[] inventory;
 	
 	public Inventory(){
 		
