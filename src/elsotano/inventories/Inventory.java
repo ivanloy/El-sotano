@@ -87,16 +87,16 @@ public class Inventory<T> implements Iterable<T>{ //TODO ORDENACION
 	
 	public Iterator<T> iterator(){
 		
-		return new ReversedIterator(); 
+		return new CommonIterator(); 
 		
 	}
 	
-	private class ReversedIterator implements Iterator<T>{
+	private class CommonIterator implements Iterator<T>{
 		
-		private int i = size;
+		private int i = 0;
 		
-		public T next() { return inventory[--i]; }
-		public boolean hasNext() { return i > 0; }
+		public T next() { return inventory[i++]; }
+		public boolean hasNext() { return i < (size); }
 		
 	}
 	

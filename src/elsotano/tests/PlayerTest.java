@@ -81,13 +81,39 @@ public class PlayerTest {
 		
 		EquipmentInventory eqInv = new EquipmentInventory();
 		
- 		eqInv.addWeapon(sword = player.getSword()); //TODO BE CAUTIOUS WITH clone
+		Sword sword2 = new Sword(222);
+		
+ 		eqInv.addWeapon(sword = player.getSword()); 
+ 		sword2.setName("Filo del suspenso");
+ 		eqInv.addWeapon(sword2); //TODO do it above, this is garbage
+ 		eqInv.addChestArmor(chestArmor);
+ 		eqInv.addHeadArmor(headArmor);
+ 		eqInv.addLegsArmor(legsArmor);
+ 		eqInv.addGloves(gloves);
+ 		eqInv.addRing(ring);
+ 		eqInv.addShoes(shoes);
+ 		
  		eqInv.printWeaponDetails(0);
+ 		eqInv.printChestArmorDetails(0);
+ 		eqInv.printHeadArmorDetails(0);
+ 		eqInv.printLegsArmorDetails(0);
+ 		eqInv.printGlovesDetails(0);
+ 		eqInv.printRingDetails(0);
+ 		eqInv.printShoesDetails(0);
+ 		
  		sword.setPower(20);
  		eqInv.printWeaponDetails(0);
  		System.out.println(sword.getPower());
  		
 		eqInv.printWeaponInventory();
+		eqInv.printChestArmorInventory();
+		eqInv.printHeadArmorInventory();
+		eqInv.printLegsArmorInventory();
+		eqInv.printGlovesInventory();
+		eqInv.printRingInventory();
+		eqInv.printShoesInventory();
+		
+		eqInv.printWeaponDetails(1);
 		
 	}
 
